@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
+
 import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -57,6 +60,7 @@ public class ArticleRepositoryTests {
     }
 
     @Test
+    @Transactional
     public void save_and_find_test() {
         articleRepository.save(article);
 
@@ -64,7 +68,9 @@ public class ArticleRepositoryTests {
         assertNotNull(articleNo);
 
         try {
-            Article foundArticle = articleRepository.findById(articleNo).get();
+            Optional<Article> optionalFoundArticle = articleRepository.findById(articleNo);
+            assertTrue(optionalFoundArticle.isPresent());
+            Article foundArticle = optionalFoundArticle.get();
             assertEquals(article, foundArticle);
         } catch (Exception e) {
             fail();
@@ -72,6 +78,7 @@ public class ArticleRepositoryTests {
     }
 
     @Test
+    @Transactional
     public void save_and_delete_test() {
         articleRepository.save(article);
 
