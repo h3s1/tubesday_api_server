@@ -9,5 +9,4 @@ public class TubesdayApplication {
     public static void main(String[] args) {
         SpringApplication.run(TubesdayApplication.class, args);
     }
-
 }
